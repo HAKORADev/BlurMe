@@ -128,11 +128,6 @@ pyinstaller --onefile --windowed --icon=src/blurme.ico src/blurme.py
 
 ---
 
-## Documentation
-
-- **[CHANGELOG.md](changelog.md)** — Version history and release notes.
----
-
 ## Contributing
 
 BlurMe is open-source (MIT License) and welcomes contributions:
