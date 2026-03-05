@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2026-03-05
+
+### Added
+
+- **Extra Privacy: Sound Mute** - Optionally mute system audio when blur is active
+  - Set `sound = 0` in `blur.conf` to enable auto-mute (default)
+  - Set `sound = 1` to keep audio normal
+  - Audio automatically unmutes when blur is disabled or app is closed
+- Cross-platform volume control support:
+  - Windows: PowerShell-based mute toggle
+  - Linux: PulseAudio/ALSA support via `pactl` and `amixer`
+  - macOS: AppleScript volume control
+
 ## [1.0.0] - 2026-03-05
 
 ### Initial Release

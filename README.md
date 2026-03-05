@@ -10,7 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
-📦 **Latest Release: v1.0.0** — Pre-built binaries available for Windows, macOS, and Linux.
+📦 **Latest Release: v1.1.0** — Pre-built binaries available for Windows, macOS, and Linux.
 
 **Important Notes:**
 - 🔧 **Run from source for the latest features.** Pre-built binaries are available for each OS under [Releases](https://github.com/YOUR_USERNAME/BlurMe/releases), but running from source ensures you have the newest updates.
@@ -53,6 +53,27 @@ python src/blurme.py
 - **Cross-Platform** — Works on Windows, macOS, and Linux (X11).
 - **Low CPU Usage** — Optimized capture and processing; uses OpenCV acceleration when available.
 - **Persistent Settings** — Your preferences are saved automatically to `blur.conf`.
+- **Extra Privacy (Sound Mute)** — Optionally mute system audio when blur is active for complete privacy.
+
+---
+
+## Configuration (blur.conf)
+
+BlurMe stores settings in `blur.conf` next to the executable:
+
+```ini
+blur = colored        # or "grayscale"
+blurness = 50         # blur intensity (1-100)
+opacity = 255         # overlay opacity (0-255)
+grayness = 128        # grayscale intensity (0-255)
+sound = 0             # 0 = mute audio when blur active, 1 = keep audio
+```
+
+### Extra Privacy: Sound Mute
+
+Set `sound = 0` (default) to automatically mute system audio when the blur overlay is active. This provides complete privacy during presentations or screen sharing — no unexpected sounds will play from your computer.
+
+Set `sound = 1` to keep audio normal.
 
 ---
 

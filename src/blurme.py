@@ -1,8 +1,9 @@
-#1.0.0
+#1.1.0
 import sys
 import platform
 import time
 import os
+import subprocess
 
 try:
     import psutil
@@ -41,6 +42,74 @@ except ImportError:
     MSS_AVAILABLE = False
 
 
+class VolumeManager:
+    _was_muted = False
+
+    @classmethod
+    def mute(cls):
+        system = platform.system()
+        try:
+            if system == "Windows":
+                from ctypes import cast, POINTER, c_float
+                from ctypes import windll, Structure, POINTER, c_void_p, c_uint32, c_ulong
+                import ctypes
+
+                class PROPERTYKEY(Structure):
+                    _fields_ = [("fmtid", ctypes.c_byte * 16), ("pid", ctypes.c_ulong)]
+
+                class PROPVARIANT(Structure):
+                    _fields_ = [("vt", ctypes.c_ushort), ("wReserved1", ctypes.c_ushort),
+                                ("wReserved2", ctypes.c_ushort), ("wReserved3", ctypes.c_ushort),
+                                ("val", ctypes.c_ulong)]
+
+                windll.ole32.CoInitialize(None)
+                device_enum = ctypes.POINTER(ctypes.c_void_p)()
+                windll.ole32.CoCreateInstance(
+                    ctypes.byref(ctypes.GUID(0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e)),
+                    None, 0x1, ctypes.byref(ctypes.GUID(0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6)),
+                    ctypes.byref(device_enum)
+                )
+                device = ctypes.POINTER(ctypes.c_void_p)()
+                device_enum.contents.__getattr__ = lambda self, name: None
+                windll.ole32.CoUninitialize()
+                subprocess.run(["powershell", "-Command", "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"], shell=True, capture_output=True)
+
+            elif system == "Linux":
+                subprocess.run(["pactl", "set-sink-mute", "@DEFAULT_SINK@", "1"], capture_output=True)
+                if subprocess.call(["pactl", "get-sink-mute", "@DEFAULT_SINK@"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0:
+                    subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "mute"], capture_output=True)
+                    if subprocess.call(["amixer", "-D", "pulse", "sset", "Master", "mute"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0:
+                        subprocess.run(["amixer", "sset", "Master", "mute"], capture_output=True)
+
+            elif system == "Darwin":
+                subprocess.run(["osascript", "-e", "set volume output muted true"], capture_output=True)
+
+            cls._was_muted = True
+        except Exception:
+            pass
+
+    @classmethod
+    def unmute(cls):
+        if not cls._was_muted:
+            return
+        system = platform.system()
+        try:
+            if system == "Windows":
+                subprocess.run(["powershell", "-Command", "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"], shell=True, capture_output=True)
+
+            elif system == "Linux":
+                subprocess.run(["pactl", "set-sink-mute", "@DEFAULT_SINK@", "0"], capture_output=True)
+                subprocess.run(["amixer", "-D", "pulse", "sset", "Master", "unmute"], capture_output=True)
+                subprocess.run(["amixer", "sset", "Master", "unmute"], capture_output=True)
+
+            elif system == "Darwin":
+                subprocess.run(["osascript", "-e", "set volume output muted false"], capture_output=True)
+
+            cls._was_muted = False
+        except Exception:
+            pass
+
+
 class ConfigManager:
     def __init__(self):
         if getattr(sys, 'frozen', False):
@@ -52,6 +121,7 @@ class ConfigManager:
         self.blurness  = 50
         self.opacity   = 255
         self.grayness  = 128
+        self.sound     = 0
         self.load()
 
     def load(self):
@@ -70,6 +140,7 @@ class ConfigManager:
                     elif key == "blurness": self.blurness  = int(value)
                     elif key == "opacity":  self.opacity   = int(value)
                     elif key == "grayness": self.grayness  = int(value)
+                    elif key == "sound":    self.sound     = int(value)
         except Exception:
             pass
 
@@ -80,6 +151,7 @@ class ConfigManager:
                 f.write(f"blurness = {self.blurness}\n")
                 f.write(f"opacity = {self.opacity}\n")
                 f.write(f"grayness = {self.grayness}\n")
+                f.write(f"sound = {self.sound}\n")
         except Exception:
             pass
 
@@ -178,6 +250,7 @@ class BlurOverlay(QWidget):
         self.opacity     = self.config.opacity
         self.gray_mode   = self.config.blur_mode == "grayscale"
         self.gray_level  = self.config.grayness
+        self.mute_sound  = self.config.sound == 0
 
         self.capture_thread    = None
         self.current_img       = None
@@ -238,8 +311,12 @@ class BlurOverlay(QWidget):
         self.enabled = not self.enabled
         if self.enabled:
             self.first_frame_ready = False
+            if self.mute_sound:
+                VolumeManager.mute()
             self.start_capture()
         else:
+            if self.mute_sound:
+                VolumeManager.unmute()
             self.stop_capture()
             self.hide()
             self.current_img = None
@@ -313,6 +390,8 @@ class BlurOverlay(QWidget):
 
     @pyqtSlot()
     def safe_close(self):
+        if self.enabled and self.mute_sound:
+            VolumeManager.unmute()
         self.stop_capture()
         self.close()
         os._exit(0)
