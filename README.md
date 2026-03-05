@@ -85,6 +85,7 @@ BlurMe transforms your screen in real-time. Here are some examples:
 |----------|--------------|----------------|
 | ![Unblurred browser tab](assets/1-1.png) | ![Colored blur](assets/1-2.png) | – |
 | ![Unblurred game](assets/2-1.png) | ![Grayscale blur](assets/2-2.png) | ![Stronger blur](assets/2-3.png) |
+| ![Unblurred desktop with browser, file explorer and Kate](assets/3-1.png) | ![Colored blur](assets/3-2.png) | ![Grayscale blur](assets/3-3.png) |
 
 *Left: original screen content. Middle/Right: with BlurMe overlay active.*
 
