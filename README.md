@@ -14,7 +14,6 @@
 
 **Important Notes:**
 - 🔧 **Run from source for the latest features.** Pre-built binaries are available for each OS under [Releases](https://github.com/YOUR_USERNAME/BlurMe/releases), but running from source ensures you have the newest updates.
-- 🤖 **For AI agents and automated tools:** See [Bots.md](Bots.md) (if applicable).
 
 📋 **For detailed version history, see [CHANGELOG.md](changelog.md)**
 
@@ -24,11 +23,11 @@
 
 ### Option 1: Download Binary (Recommended for End Users)
 Grab the latest release for your operating system from the [Releases page](https://github.com/YOUR_USERNAME/BlurMe/releases):
-- **Windows:** `BlurMe_Windows_x64.exe`
-- **macOS:** `BlurMe_macOS.dmg`
-- **Linux:** `BlurMe_Linux_x86_64.AppImage`
+- **Windows**
+- **macOS**
+- **Linux**
 
-Run the executable — no installation required.
+Run the executable — no installation required, make sure to read the release notes!
 
 ### Option 2: Run from Source (For Developers / Power Users)
 ```bash
@@ -41,15 +40,6 @@ pip install -r requirements.txt
 
 # Launch BlurMe
 python src/blurme.py
-```
-
-### Installation Requirements (Source)
-```bash
-# Required
-pip install PyQt5 mss pynput
-
-# Optional (for performance)
-pip install opencv-python numpy Pillow
 ```
 
 ---
@@ -103,21 +93,10 @@ BlurMe transforms your screen in real-time. Here are some examples:
 ## Installation Details
 
 ### Prerequisites (for source)
-- Python 3.6 or higher
+- Python 3.12 or higher
 - pip package manager
 - Linux users: X11 session required (Wayland not supported)
 
-### Dependencies
-| Package | Purpose | Required |
-|---------|---------|----------|
-| `PyQt5` | GUI framework and overlay window | ✅ Yes |
-| `mss`   | Fast screen capture | ✅ Yes |
-| `pynput`| Global hotkey listener | ✅ Yes |
-| `opencv-python` | Accelerated image processing | ❌ Optional |
-| `numpy` | Array operations (used with OpenCV) | ❌ Optional |
-| `Pillow` | Fallback image processing | ❌ Optional |
-
-If OpenCV and numpy are installed, BlurMe uses them for faster blurring and grayscale conversion. Otherwise, it falls back to Pillow.
 
 ### Building a Binary
 To create a standalone executable for your platform:
@@ -145,15 +124,13 @@ pyinstaller --onefile --windowed --icon=src/blurme.ico src/blurme.py
 | Light blur (radius 10) | 2–5% |
 | Heavy blur (radius 50) | 5–10% |
 
-*Measured on a modern 4‑core CPU at 30 FPS. Enabling OpenCV can reduce load by up to 50%.*
+*Measured on a 4‑core CPU at 30 FPS. Enabling OpenCV can reduce load by up to 50%.*
 
 ---
 
 ## Documentation
 
 - **[CHANGELOG.md](changelog.md)** — Version history and release notes.
-- **[Bots.md](Bots.md)** — Guidelines for AI agents and automated systems (if applicable).
-
 ---
 
 ## Contributing
@@ -179,4 +156,4 @@ MIT License — See [LICENSE](LICENSE) for full details.
 
 Built with appreciation for the open-source Python community and the developers of `mss`, `pynput`, and PyQt5. Inspired by the need for simple, effective screen privacy tools.
 
-**Resources:** [GitHub Releases](https://github.com/YOUR_USERNAME/BlurMe/releases) | [Issue Tracker](https://github.com/YOUR_USERNAME/BlurMe/issues)
+---
