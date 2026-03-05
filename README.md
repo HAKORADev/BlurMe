@@ -6,7 +6,7 @@
 
 **BlurMe** is a lightweight, real-time screen blurring tool that protects your privacy during presentations, streaming, or screen sharing. With customizable blur intensity, grayscale conversion, and opacity control, BlurMe creates a soft-focus overlay over your entire screen — activated instantly with global hotkeys.
 
-[![GitHub release](https://img.shields.io/github/release/YOUR_USERNAME/BlurMe.svg)](https://github.com/YOUR_USERNAME/BlurMe/releases)
+[![GitHub release](https://img.shields.io/github/release/HAKORADev/BlurMe.svg)](https://github.com/YOUR_USERNAME/BlurMe/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
