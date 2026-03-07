@@ -13,7 +13,7 @@
 📦 **Latest Release: v1.1.0** — Pre-built binaries available for Windows, macOS, and Linux.
 
 **Important Notes:**
-- 🔧 **Run from source for the latest features.** Pre-built binaries are available for each OS under [Releases](https://github.com/YOUR_USERNAME/BlurMe/releases), but running from source ensures you have the newest updates.
+- 🔧 **Run from source for the latest features.** Pre-built binaries are available for each OS under [Releases](https://github.com/HAKORADev/BlurMe/releases), but running from source ensures you have the newest updates.
 
 📋 **For detailed version history, see [CHANGELOG.md](changelog.md)**
 
