@@ -22,7 +22,7 @@
 ## Quick Start
 
 ### Option 1: Download Binary (Recommended for End Users)
-Grab the latest release for your operating system from the [Releases page](https://github.com/YOUR_USERNAME/BlurMe/releases):
+Grab the latest release for your operating system from the [Releases page](https://github.com/HAKORADev/BlurMe/releases):
 - **Windows**
 - **macOS**
 - **Linux**
